@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+typedef struct 
+{
+int tu;
+int mau;
+} phanso ;
+void nhapps(phanso &p)
+{
+
+printf("nhap tu so:");
+scanf("%d",&p.tu);
+printf("nhap mau so:");
+scanf("%d",&p.mau);
+while (p.mau==0)
+{
+	printf("nhap mau khac 0:");
+scanf("%d",&p.mau);	
+}
+}
+int ucln(int a, int b) {
+    if (b == 0) return a;
+    return ucln(b, a % b);
+}
+void rutgon(phanso &p) 
+{ 	
+	int u = ucln(p.tu,p.mau);
+	p.tu /= u;
+	p.mau /= u;
+
+}
+
+phanso tong(phanso a,phanso b)
+ {
+ 	phanso cong;
+ 	cong.mau=a.mau*b.mau;
+ 	cong.tu=a.tu*b.mau+a.mau*b.tu;
+ 	rutgon(cong);
+ 	return cong;
+ }
+ 
+phanso hieu(phanso a,phanso b)
+ {
+ 	phanso tru;
+ 	tru.mau=a.mau*b.mau;
+ 	tru.tu=a.tu*b.mau-a.mau*b.tu;
+ 	rutgon(tru);
+ 	return tru;
+ }
+ 
+phanso tich(phanso a,phanso b)
+ {
+ 	phanso nhan;
+ 	nhan.mau=a.mau*b.mau;
+ 	nhan.tu=a.tu*b.tu;
+ 	rutgon(nhan);
+ 	return nhan;
+ }
+ 
+phanso thuong(phanso a,phanso b)
+ {
+ 	phanso chia;
+ 	chia.mau=a.mau*b.tu;
+ 	chia.tu=a.tu*b.mau;
+ 	rutgon(chia);
+ 	return chia;
+ } 
+ 
+void show (phanso p)
+{
+	printf("%d/%d\n", p.tu, p.mau);
+}
+int main ()
+{
+int luachon;
+	do {
+		printf("===== MENU =====");
+		printf("\n1. Nhap vao hai phan so.");
+		printf("\n2. Rut gon hai phan so.");
+		printf("\n3. Cong hai phan so.");
+		printf("\n4. Tru hai phan so.");
+		printf("\n5. Nhan hai phan so.");
+		printf("\n6. Chia hai phan so.");
+		printf("\n0. Thoat chuong trinh.");
+		printf("\nBan chon ? \n");
+		
+		scanf("%d", &luachon);
+		phanso a, b, cong, tru, nhan, chia;
+		
+		switch(luachon) {
+			case 0:
+				break;
+			case 1:
+				printf("Nhap phan so thu nhat: \n");
+			nhapps(a);
+				printf("Nhap phan so thu hai: \n");
+			nhapps(b);
+				printf("Hai phan so vua nhap: \n");
+				show(a);
+				show(b);
+				break;
+			case 2:
+				rutgon(a);
+				rutgon(b);
+				printf("Phan so a sau khi rut gon: ");
+				show(a);
+				printf("Phan so b sau khi rut gon: ");
+				show(b);
+				break;
+			case 3:
+				cong = tong(a, b);
+				printf("%d/%d + %d/%d = %d/%d\n", 
+					a.tu, a.mau, b.tu, b.mau, cong.tu, cong.mau);
+				break;
+			case 4:
+				tru = hieu(a, b);
+				printf("%d/%d - %d/%d = %d/%d\n", 
+					a.tu, a.mau, b.tu, b.mau, tru.tu, tru.mau);
+				break;
+				
+			case 5:
+				nhan = tich(a, b);
+				printf("%d/%d * %d/%d = %d/%d\n", 
+					a.tu, a.mau, b.tu, b.mau, nhan.tu, nhan.mau);
+				break;
+				
+			case 6:
+				chia = thuong(a, b);
+				printf("%d/%d / %d/%d = %d/%d\n", 
+					a.tu, a.mau, b.tu, b.mau, chia.tu, chia.mau);
+				break;
+			
+			default:
+				printf("Sai chuc nang, vui long chon lai!\n");
+				break;
+		}
+	} while(luachon);
+
+	return 0;
+}

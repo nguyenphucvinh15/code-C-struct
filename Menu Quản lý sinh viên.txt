@@ -1,0 +1,170 @@
+#include stdio.h
+#include string.h
+typedef struct 
+{
+	char ho[20];
+	char dem[20];
+	char ten[20];
+}hoten;
+typedef struct
+{
+	int toan;
+	int van;
+	int anh;
+	int tbc;
+} diemmh;
+typedef struct
+{
+	int ma;
+	hoten ten;
+	int tuoi;
+	char gioitinh[20];
+	diemmh diem;
+}sinhvien;
+typedef struct 
+{
+	sinhvien a[30];
+	int n;
+}danhsach;
+void nhapten (hoten &ten)
+{
+	printf(nhap ho);
+	scanf(%s,&ten.ho);
+	printf(nhap ten dem);
+	scanf(%s,&ten.dem);
+	printf(nhap ten);
+	scanf(%s,&ten.ten);
+}
+void xuatten (hoten &ten)
+{
+	printf(Ho va ten%s %s %sn,ten.ho,ten.dem,ten.ten);
+}
+
+void nhapdiem (diemmh &d)
+{
+	printf(nhap diem toan);
+	scanf(%d,&d.toan);
+	printf(nhap diem van);
+	scanf(%d,&d.van);
+	printf(nhap diem anh);
+	scanf(%d,&d.anh);
+	d.tbc=(d.toan+d.van+d.anh)3;
+}
+
+void xuatdiem (diemmh &d)
+{
+	printf(Toan %dn,d.toan);
+	printf(Van %dn,d.van);
+	printf(Anh %dn,d.anh);
+	printf(TBC %dn,d.tbc);
+}
+void nhapsv (sinhvien &sv)
+{
+	printf (nnhap ma sinh vien);
+	scanf(%d,&sv.ma);
+	nhapten (sv.ten);
+	printf(nhap tuoi );
+	scanf(%d,&sv.tuoi);
+	printf(nhap gioi tinh );
+	scanf(%s,sv.gioitinh);
+	nhapdiem(sv.diem);
+}
+void xuatsv (sinhvien &sv)
+{
+	printf(nMa %dn,sv.ma);
+	xuatten (sv.ten);
+	printf(Tuoi  %dn,sv.tuoi);
+	printf(Gioi tinh %sn,sv.gioitinh);
+	xuatdiem(sv.diem);
+}
+void nhapds (danhsach &ds)
+{
+	for (int i=0;ids.n;i++)
+	{
+		printf(nsinh vien thu %d,i+1);
+		nhapsv(ds.a[i]);
+	}
+}
+void xuatds (danhsach &ds)
+{
+printf(nDanh sach sinh vienn);
+	for (int i=0;ids.n;i++)
+	{
+		printf(sinh vien thu %d,i+1);
+		xuatsv(ds.a[i]);
+	}
+}
+void sapxep (danhsach &ds)
+{
+	sinhvien tam;
+for(int i=0; ids.n-1; i++)
+	{
+		for(int j=i+1; jds.n; j++)
+		if (ds.a[i].diem.tbcds.a[j].diem.tbc)
+		{
+		tam=ds.a[i];
+		ds.a[i]=ds.a[j];
+		ds.a[j]=tam;
+		}
+	}
+}
+void timsv (danhsach &ds,char x[])
+{
+	printf(nnhap ten can tim);
+	fflush(stdin);
+	gets(x);
+	int d=0;	
+	for (int i=0;ids.n;i++)
+	{
+		if (strcmp(x,ds.a[i].ten.ten)==0)
+		{
+			xuatsv(ds.a[i]);
+			d=1;
+		}
+		d=1;
+	}
+	if (d==0)
+	{
+		printf(khong co sinh vien trong danh sach.n);
+	}
+}
+int main ()
+{
+	char x[100];
+	danhsach sv;
+	printf (=======Menu========);
+	int luachon;
+	
+	do {
+		printf(1.Nhap so luong sinh vienn);
+		printf(2.Hien thi thong tin sinh vienn);
+		printf(3.sap xep sinh vien theo diem trung binhn);
+		printf(4.Tim thong tin sinh vienn);
+		printf(0.Thoat chuong trinhn);
+		scanf(%d,&luachon);
+		switch (luachon)
+		{
+			case 0
+				break;
+			case 1
+				printf(so sinh vien la);
+				scanf(%d,&sv.n);
+				break;
+			case 2
+				nhapds(sv);
+				xuatds(sv);
+				break;
+			case 3
+				sapxep (sv);
+				xuatds (sv);
+				break;
+			case 4
+				timsv(sv,x);
+				break;
+			default
+				printf(khong co lua chon nay.);
+				break;
+		}
+	}while (luachon);
+}
+	

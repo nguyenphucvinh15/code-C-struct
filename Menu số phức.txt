@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <math.h>
+typedef struct 
+{
+	int thuc;
+	int ao;
+}sophuc;
+void nhap (sophuc *sp)
+{
+	printf("nhap phan thuc :");
+	scanf ("%d",&sp->thuc);
+	printf("nhap phan ao :");
+	scanf ("%d",&sp->ao);
+}
+void xuat (sophuc sp)
+{
+if(sp.ao > 0)
+        printf("\nSo phuc : %d + %di",  sp.thuc, sp.ao);
+    else if(sp.ao == 0)
+        printf("\nSo phuc : %d",  sp.thuc);
+    else
+        printf("\nSo phuc : %d - %di",  sp.thuc, (-1)*sp.ao);
+}
+
+sophuc tong (sophuc a,sophuc b)
+{
+	sophuc cong;
+	cong.thuc =a.thuc+b.thuc;
+	cong.ao =a.ao+b.ao;
+	xuat(cong);
+}
+
+sophuc tru (sophuc a,sophuc b)
+{
+	sophuc hieu;
+	hieu.thuc =a.thuc-b.thuc;
+	hieu.ao =a.ao-b.ao;
+	xuat (hieu);
+}
+
+sophuc tich (sophuc a,sophuc b)
+{
+	sophuc nhan;
+	nhan.thuc =a.thuc*b.thuc-a.ao*b.ao;
+	nhan.ao =a.thuc*b.ao+a.ao*b.thuc;
+	xuat (nhan);
+}
+
+sophuc thuong (sophuc a,sophuc b)
+{
+	sophuc thuong;
+	thuong.thuc = (float)(a.thuc*b.thuc + a.ao*b.ao)/
+                     (b.thuc*b.thuc + b.ao*b.ao);
+    thuong.ao = (float)(a.ao*b.thuc - a.thuc*b.ao)/
+                     (b.thuc*b.thuc + b.ao*b.ao);
+	xuat (thuong);
+}
+
+float argument(sophuc sp)
+{
+   return atan(sp.ao/sp.thuc);
+}
+
+float modul(sophuc sp)
+{
+   return sqrt(sp.thuc*sp.thuc+sp.ao*sp.ao);
+}
+
+int main ()
+{
+	sophuc sp1;
+	sophuc sp2;
+	nhap (&sp1);
+	nhap (&sp2);
+	
+	int luachon;
+	do {
+		printf("\n==================Menu=================\n");
+		printf("1.Tinh tong hai so phuc.\n");
+		printf("2.Tinh hieu hai so phuc.\n");
+		printf("3.Tinh tich hai so phuc.\n");
+		printf("4.Tinh thuong hai so phuc.\n");
+		printf("5.Tinh argument hai so phuc.\n");
+		printf("6.Tinh modul hai so phuc.\n");
+		printf("0.Thoat chuong trinh.\n");
+		scanf("%d",&luachon);
+		switch (luachon)
+		{
+			case 0:
+				break;
+			case 1:
+				printf("Tong hai so phuc la :");
+				tong(sp1,sp2);
+				break;
+			case 2:
+				printf("Hieu hai so phuc la :");
+				tru(sp1,sp2);
+				break;
+			case 3:
+				printf("Tich hai so phuc la :");
+				tich(sp1,sp2);
+				break;
+			case 4:
+				printf("Thuong hai so phuc la :");
+				thuong(sp1,sp2);
+				break;
+			case 5:
+				printf("argument cua so phuc thu nhat la :");
+				printf("%.2f",argument(sp1));
+				printf("argument cua so phuc thu hai la :");
+				printf("%.2f",argument(sp2));
+				break;
+			case 6:
+				printf("Modul so phuc thu nhat la :");
+				printf("%.2f",modul(sp1));
+				printf("Modul so phuc thu hai la :");
+				printf("%.2f",modul(sp2));
+				break;
+				default:
+					printf("lua chon lai.\n");
+					break;
+		}
+		
+	}
+	while (luachon);
+
+}

@@ -144,24 +144,24 @@ int main ()
 		scanf(%d,&luachon);
 		switch (luachon)
 		{
-			case 0
+			case 0:
 				break;
-			case 1
+			case 1:
 				printf(so sinh vien la);
 				scanf(%d,&sv.n);
 				break;
-			case 2
+			case 2:
 				nhapds(sv);
 				xuatds(sv);
 				break;
-			case 3
+			case 3:
 				sapxep (sv);
 				xuatds (sv);
 				break;
-			case 4
+			case 4:
 				timsv(sv,x);
 				break;
-			default
+			default:
 				printf(khong co lua chon nay.);
 				break;
 		}

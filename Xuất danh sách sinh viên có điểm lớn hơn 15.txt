@@ -1,0 +1,119 @@
+#include<stdio.h>
+
+typedef struct  {
+	int ngay;
+	int thang;
+	int nam;
+}date;
+
+typedef struct {
+	float Toan;
+	float Ly;
+	float Hoa;
+}diemmh;
+
+typedef struct  {
+	char hoten[30], truong[50];
+	int sbd;
+	diemmh diem;
+	date ngs;
+}sinhvien;
+
+typedef struct  {
+	sinhvien a[30];
+	int n;
+}danhsach;
+
+void nhapngs(date &ns) {
+	do {
+		printf("\nNhap vao ngay: ");
+		scanf("%d", &ns.ngay);
+	} while(ns.ngay < 0 || ns.ngay > 31);
+	do {
+		printf("\nNhap vao thang: ");
+		scanf("%d", &ns.thang);
+	} while(ns.thang < 0 || ns.thang > 12);
+	printf("\nNhap vao nam: ");
+	scanf("%d", &ns.nam);
+}
+
+void xuatns(date ns) {
+	printf("%d-", ns.ngay);
+	printf("%d-", ns.thang);
+	printf("%d", ns.nam);
+}
+
+void nhapdiem(diemmh &d) {
+	printf("\nNhap vao diem mon Toan: ");
+	scanf("%f", &d.Toan);
+	printf("\nNhap vao diem mon Ly: ");
+	scanf("%f", &d.Ly);
+	printf("\nNhap vao diem mon Hoa: ");
+	scanf("%f", &d.Hoa);
+}
+
+float tongdiem(diemmh d) {
+	float S;
+	S = (d.Toan + d.Ly + d.Hoa);
+	return S;
+}
+
+void xuatdiem(diemmh d) {
+	printf("\nDiem toan: %.2f", d.Toan);
+	printf("\nDiem ly: %.2f", d.Ly);
+	printf("\nDiem hoa: %.2f", d.Hoa);
+}
+
+void nhapsv(sinhvien &sv) {
+	printf("\nNhap vao sbd: ");
+	scanf("%d",&sv.sbd);
+	printf("\nNhap vao ho va ten: ");
+	fflush(stdin);
+	gets(sv.hoten);
+	printf("\nNgay sinh: ");
+	nhapngs(sv.ngs);
+	printf("\nNhap vao truong: ");
+	fflush(stdin);
+	gets(sv.truong);
+	printf("\nNhap vao diem thi: ");
+	nhapdiem(sv.diem);
+}
+void xuatsv(sinhvien sv)
+{
+	if (tongdiem(sv.diem) >= 15) { 
+	    printf("\n%25s", sv.hoten);
+	    printf("%15s", " ");
+	    xuatns(sv.ngs);
+	    printf("%20s", sv.truong);
+	    printf("%15d", sv.sbd);
+	    printf("%15f", tongdiem(sv.diem));
+	}
+}
+
+void nhapds(danhsach &ds) {
+	printf("\nnhap so luong sinh vien: ");
+	scanf("%d",&ds.n);
+	printf("\nNhap thong tin sinh vien");
+	for (int i = 0;i < ds.n; i++) {
+		printf("\nSinh vien thu %d",i+1);
+		nhapsv(ds.a[i]);
+	}
+}
+
+void xuatds(danhsach ds) {
+
+	  printf("\n\n-----------------------------------------------------------------------------------------------------");
+	printf("\n\t\t\tDANH SACH SINH VIEN");
+	printf("\n%25s%25s%20s%15s%10s", "HO TEN", "NGAY SINH", "TRUONG", "SOBAODANH", "DIEM");
+	printf("\n\n-----------------------------------------------------------------------------------------------------");
+	for (int i = 0; i < ds.n; i++) {
+	    xuatsv(ds.a[i]);
+	}
+}
+
+int main ()
+{
+	danhsach ds;
+	nhapds(ds);
+	xuatds(ds);
+}

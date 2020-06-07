@@ -1,0 +1,243 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct 
+{
+	char ho[20];
+	char dem[20];
+	char ten[20];
+}hoten;
+
+typedef struct
+{
+	int ngay;
+	int thang;
+	int nam;
+}ngaysinh;
+
+typedef struct
+{
+	char ma[20];
+	hoten ht;
+	ngaysinh ngs;
+	float diemtb;
+	char lop[20];
+	char xloai[20];
+}sinhvien;
+
+typedef struct 
+{
+	sinhvien a[30];
+	int n;
+}danhsach;
+
+void nhapten (hoten &ten)
+{
+	printf("nhap ho:");
+	scanf("%s",&ten.ho);
+	printf("nhap ten dem:");
+	scanf("%s",&ten.dem);
+	printf("nhap ten:");
+	scanf("%s",&ten.ten);
+}
+
+void nhapngs (ngaysinh &ns)
+{
+	do{
+		printf("\nnhap ngay:");
+		scanf("%d",&ns.ngay);
+	}while (ns.ngay>31||ns.ngay<1);
+
+	do{
+		printf("\nnhap thang:");
+		scanf("%d",&ns.thang);
+	}while (ns.thang>12||ns.thang<1);
+	
+		printf("\nnhap nam:");
+		scanf("%d",&ns.nam);
+
+}
+
+void nhapsv (sinhvien &sv)
+{
+	fflush(stdin);
+	printf ("\nnhap ma sinh vien:");
+	gets (sv.ma);
+	fflush(stdin);
+	nhapten(sv.ht);
+	fflush(stdin);
+	printf("\nnhap ngay thang sinh:");
+	nhapngs(sv.ngs);
+	printf("\nDiem TB:");
+	scanf("%f",&sv.diemtb);
+		fflush(stdin);
+	printf("\nLop:");
+	gets (sv.lop);
+		fflush(stdin);
+}
+
+void xuatten (hoten &ten)
+{
+	printf("%s %s %s",ten.ho,ten.dem,ten.ten);
+}
+
+void xuatngs(ngaysinh &ngs)
+{
+	printf("%d-%d-%d",ngs.ngay,ngs.thang,ngs.nam);
+}
+
+void xuatsv (sinhvien &sv)
+{
+	printf("%15s",sv.ma);
+	printf("%15s"," ");
+	xuatten(sv.ht);
+	printf("%20s", " ");
+	xuatngs(sv.ngs);
+	printf("%20f",sv.diemtb);
+	printf("%10s",sv.lop);
+	char a[9]="Xuat sac";char b[5]="Gioi";char c[4]="Kha";char d[11]="Trung binh";char e[4]="Yeu";
+	if (sv.diemtb>=9)
+	{
+		strcpy(sv.xloai,a);
+	}
+	if (sv.diemtb>=8&&sv.diemtb<9)
+	{
+		strcpy(sv.xloai,b);
+	}
+	if (sv.diemtb>=6.5&&sv.diemtb<8)
+	{
+		strcpy(sv.xloai,c);
+	}
+	if (sv.diemtb>=4&&sv.diemtb<6.5)
+	{
+		strcpy(sv.xloai,d);
+	}
+	if (sv.diemtb<4)
+	{
+			strcpy(sv.xloai,e);
+	}
+	printf("%30s",sv.xloai);
+}
+void nhapds (danhsach &ds)
+{
+	printf("nhap so sinh vien :");
+	scanf("%d",&ds.n);
+	for (int i=0;i<ds.n;i++)
+	{
+		printf("\nsinh vien thu %d",i+1);
+		nhapsv(ds.a[i]);
+	}
+}
+void xuatds (danhsach &ds)
+{
+	printf("\nDanh sach sinh vien\n");
+	printf("\n=================================================\n");
+	printf("%15s%30s%30s%20s%10s%30s","Ma","Ho ten","Ngay sinh","Diem TB","Lop","Xep Loai");
+	printf("\n=================================================\n");
+	for (int i=0;i<ds.n;i++)
+	{
+		xuatsv(ds.a[i]);
+		printf("\n");
+	}	
+}
+
+void timma (danhsach &ds)
+{
+	char b[20];
+	printf("nhap ma can tim:");
+	gets (b);
+	for (int i=0;i<ds.n;i++)
+	{
+		if (strcmp (ds.a[i].ma,b)==0)
+		xuatsv(ds.a[i]);
+		printf("\n");
+	}	
+}
+
+void xoama (danhsach &ds)
+{
+	char b[20];
+	printf("nhap ma muon xoa:");
+	gets(b);
+	for (int i=0;i<ds.n;i++)
+	{
+		if (strcmp(ds.a[i].ma,b)!=0)
+		xuatsv(ds.a[i]);
+		printf("\n");
+	}
+}
+
+void timsv (danhsach &ds)
+{
+	char b[20];
+	printf("\nNhap ten can tim:");
+	gets(b);
+	int d=0;	
+	for (int i=0;i<ds.n;i++)
+	{
+		if (strcmp(b,ds.a[i].ht.ten)==0)
+		{
+			xuatsv(ds.a[i]);
+			printf("\n");
+			d=1;
+		}
+		d=1;
+	}
+	if (d==0)
+	{
+		printf("khong co sinh vien trong danh sach.\n");
+	}
+}
+
+void timTB (danhsach &ds)
+{
+	float x;
+	scanf("%f",&x);
+	for (int i=0;i<ds.n;i++)
+	{
+		if (ds.a[i].diemtb==x)
+		{
+			xuatsv(ds.a[i]);
+			printf("\n");
+		}
+}
+}
+
+void sapxep(danhsach &ds) 
+{
+sinhvien tam;
+for(int i=0; i<ds.n-1; i++)
+	{
+		for(int j=i+1; j<ds.n; j++)
+		if (ds.a[i].diemtb>ds.a[j].diemtb)
+		{
+		tam=ds.a[i];
+		ds.a[i]=ds.a[j];
+		ds.a[j]=tam;
+		}
+	}
+}
+
+void sxten (danhsach &ds)
+{
+	sinhvien tam;
+for(int i=0; i<ds.n-1; i++)
+	{
+		for(int j=i+1; j<ds.n; j++)
+		if (ds.a[i].ht.ten[0]>ds.a[j].ht.ten[0])
+		{
+		tam=ds.a[i];
+		ds.a[i]=ds.a[j];
+		ds.a[j]=tam;
+		}
+	}
+}
+
+int main ()
+{
+	danhsach ds;
+	nhapds(ds);a
+	sxten(ds);
+		xuatds(ds);
+	
+}

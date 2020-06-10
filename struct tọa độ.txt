@@ -1,0 +1,182 @@
+#include <iostream>
+#include <cmath>
+#include <stdlib.h>
+#define MAX 100
+using namespace std;
+
+int dem1, dem2, dem3, dem4, d1, d2, d3, d4;
+
+struct ToaDo {
+	double x, y;
+};
+typedef ToaDo toado;
+
+struct DanhSach {
+	toado a[MAX];
+	int n;
+};
+typedef DanhSach danhsach;
+
+void nhapToaDo(toado &td);
+void inToaDo(toado td);
+bool laGocToaDo(toado td);
+bool laTrenTungHoanh(toado td);
+bool laTrenDuongCheo(toado td);
+bool laDoiXung(toado a, toado b);
+int trenGocPhanTu(toado td);
+double tinhKhoangCach(toado a, toado b);
+double tinhKhoangCachToaDo(toado a);
+void nhapdanhsach(danhsach &ds);
+void sapXepKhoangCach(danhsach ds);
+void xuatSapXep(danhsach ds);
+void xuatdanhsach(danhsach ds);
+
+int main() {
+	danhsach ds;
+	toado td;
+	nhapdanhsach(ds);
+	xuatdanhsach(ds);
+	sapXepKhoangCach(ds);
+}
+
+void nhapToaDo(toado &td) {
+	cout << "\nNhap vao toa do x: ";
+	cin >> td.x;
+	cout << "Nhap vao tung do y: ";
+	cin >> td.y;
+	cout << "\n--------------------------------------------------------------------";
+}
+
+void inToaDo(toado td) {
+	cout << " (" << td.x << ", " << td.y << ")"; 
+}
+
+bool laGocToaDo(toado td) {
+	if ((td.x == 0) && (td.y == 0)) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+bool laTrenTungHoanh(toado td) {
+	if ((td.x == 0) || (td.y == 0)) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+bool laTrenDuongCheo(toado td) {
+	if (fabs(td.x) == fabs(td.y)) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+bool laDoiXung(toado a, toado b) {
+	if ((a.x + b.x == 0) && (a.y + b.y == 0)) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+int trenGocPhanTu(toado td) {
+	if ((td.x > 0) && (td.y > 0)) {
+		return 1;
+	} else if ((td.x < 0) && (td.y > 0)) {
+		return 2;
+    } else if ((td.x < 0) && (td.y < 0)) {
+		return 3;
+	} else if ((td.x > 0) && (td.y < 0)) {
+		return 4;
+	}
+}
+
+double tinhKhoangCach(toado a, toado b) {
+	return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
+}
+
+double tinhKhoangCachToaDo(toado a) {
+	return sqrt(a.x*a.x + a.y*a.y);
+}
+
+void nhapdanhsach(danhsach &ds) {
+	cout << "\nNhap vao so luong diem: ";
+	cin >> ds.n;
+	cout << "\nNhap toa do cac diem:";
+	for (int i = 0; i < ds.n; i++) {
+		cout << "\n\nToa do diem thu " <<  i + 1 << " la: ";
+		nhapToaDo(ds.a[i]);
+	}
+}
+
+void sapXepKhoangCach(danhsach ds) {
+    for (int i = 0; i < ds.n - 1; i++) {
+    	for (int j = i + 1; j < ds.n; j ++) {
+    		if ((tinhKhoangCachToaDo(ds.a[i])) < (tinhKhoangCachToaDo(ds.a[j]))) {
+    			toado tg;
+    			tg = ds.a[i];
+    			ds.a[i] = ds.a[j];
+    			ds.a[j] = tg;
+			}
+		}
+	}
+	cout << "\n--------------------------------------------------------------------";
+	cout << "\n--------------------------------------------------------------------";
+	cout << "\nDanh sach cac diem voi khoang cach giam dan so voi goc toa do: ";
+	for (int i = 0; i < ds.n; i++) {
+		inToaDo(ds.a[i]);
+	}
+}
+
+void xuatdanhsach(danhsach ds) {
+	cout << "\n--------------------------------------------------------------------";
+	cout << "\nDanh sach cac diem ban vua nhap vao la: ";
+	for (int i = 0; i < ds.n; i++) {
+		cout << "\nToa do diem thu " <<  i + 1 << " la: ";
+		inToaDo(ds.a[i]);
+	}
+	cout << "\n--------------------------------------------------------------------";
+	cout << "\n--------------------------------------------------------------------";
+	for (int i = 0; i < ds.n; i++) {
+		if (laGocToaDo(ds.a[i]) == 1) {
+		    dem1 ++;
+		}
+		if (laTrenTungHoanh(ds.a[i]) == 1) {
+			dem2 ++;
+		}
+		if (laTrenDuongCheo(ds.a[i]) == 1) {
+			dem3 ++;
+		}
+		if (trenGocPhanTu(ds.a[i]) == 1) {
+		  	d1 ++;
+		}
+		if (trenGocPhanTu(ds.a[i]) == 2) {
+			d2 ++;
+		}
+		if (trenGocPhanTu(ds.a[i]) == 3) {
+			d3 ++;
+		}
+		if (trenGocPhanTu(ds.a[i]) == 4) {
+			d4 ++;
+		}
+	}
+	for (int i = 0; i < ds.n - 1; i++) {
+    	for (int j = i + 1; j < ds.n; j ++) {
+    	    if (laDoiXung(ds.a[i], ds.a[j]) == 1) {
+    	    	dem4 ++;
+			}
+		}
+    }
+    cout << "\nCo " << dem1 << " diem la goc toa do";
+    cout << "\nCo " << dem2 << " diem nam tren truc tung hoac truc hoanh";
+    cout << "\nCo " << dem3 << " diem nam tren duong cheo chinh hoac phu";
+    cout << "\nCo " << d1 << " diem nam o goc phan tu thu nhat";
+    cout << "\nCo " << d2 << " diem nam o goc phan tu thu hai";
+    cout << "\nCo " << d3 << " diem nam o goc phan tu thu ba";
+    cout << "\nCo " << d4 << " diem nam o goc phan tu tu";
+    cout << "\nCo " << dem4 << " cap diem doi xung nhau qua goc toa do";
+}

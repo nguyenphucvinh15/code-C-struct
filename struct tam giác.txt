@@ -1,0 +1,131 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+struct ToaDo {
+    double x,y;
+};
+
+const ToaDo O = {0, 0};
+
+struct VecTor {
+    ToaDo diemDau, diemCuoi;
+    VecTor (ToaDo _diemDau, ToaDo _diemCuoi) {
+        diemDau = _diemDau;
+        diemCuoi = _diemCuoi;
+    }
+    ToaDo toaDoVector() {
+        ToaDo vector;
+        vector.x = diemCuoi.x - diemDau.x;
+        vector.y = diemCuoi.y - diemDau.y;
+        return vector;
+    }
+};
+
+struct DoanThang {
+    ToaDo diem_Dau, diem_Cuoi;
+    double a1, b1, c1;
+    DoanThang (ToaDo _diem_Dau, ToaDo _diem_Cuoi) {
+        diem_Dau = _diem_Dau;
+        diem_Cuoi = _diem_Cuoi;
+        VecTor u(diem_Dau,diem_Cuoi);
+        a1 = -u.toaDoVector().y;
+        b1 = u.toaDoVector().x;
+        c1 = -(a1*diem_Dau.x + b1*diem_Dau.y);
+    }
+    void vietPTrinhDT() {
+        cout << a1 << "*x + " << b1 << "*y + " << c1 << " = 0";
+    }
+};
+
+struct TamGiac {
+    ToaDo A, B, C;
+    TamGiac (ToaDo _A, ToaDo _B, ToaDo _C) {
+        A = _A;
+        B = _B;
+        C = _C;
+    }
+    ToaDo TrongTam() {
+        ToaDo G;
+        G.x = (A.x + B.x + C.x)/3;
+        G.y = (A.y + B.y + C.y)/3;
+        return G;
+    }
+};
+
+void nhapToaDo(ToaDo &td);
+void nhapToaDoTamGiac(TamGiac &tg);
+void inToaDo(ToaDo td);
+bool kiemtra(TamGiac &tg);
+void inTamGiac(TamGiac tg, char* thongbao);
+double thayToaDoVaoDuongThang(ToaDo td, DoanThang dt);
+bool haiDoanThangCatNhau(DoanThang a, DoanThang b);
+
+int main () {
+    TamGiac ABC(O, O, O);
+    while(1) {
+		nhapToaDoTamGiac(ABC);
+		if (kiemtra(ABC) == 1) {
+			cout << "\nA, B, C khong phai la 3 dinh cua tam giac. Moi nhap lai!!!";
+			
+		} else {
+			inTamGiac(ABC, "Toa do 3 diem cua tam giac ABC la: ");
+			break;
+		}
+	}
+    DoanThang AB(ABC.A, ABC.B), AC(ABC.A, ABC.C), BC(ABC.B, ABC.C);
+    DoanThang OG(O, ABC.TrongTam());
+    if (thayToaDoVaoDuongThang(O, AB) == 0 || thayToaDoVaoDuongThang(O, AC) == 0 || thayToaDoVaoDuongThang(O, BC) == 0) {
+        cout << "\n\nNam tren canh tam giac";
+    } else if (haiDoanThangCatNhau(AB, OG) || haiDoanThangCatNhau(AC, OG) || haiDoanThangCatNhau(BC, OG)) {
+	    cout<<"\n\nNam ngoai tam giac";
+	} else {
+	    cout << "\n\nNam trong tam giac";
+	}
+}
+
+void nhapToaDo(ToaDo &td) {
+    cout << "Nhap hoanh do x: ";
+    cin >> td.x;
+    cout << "Nhap tung do y: ";
+    cin >> td.y;
+    cout << "\n-----------------------";
+}
+
+void nhapToaDoTamGiac(TamGiac &tg) {
+    cout << "\nNhap toa do 3 diem cho tam giac: " << endl;
+    cout << "\nNhap toa do dinh A: " << endl;
+    nhapToaDo(tg.A);
+    cout << "\nNhap toa do dinh B: " <<endl;
+    nhapToaDo(tg.B);
+    cout << "\nNhap toa do dinh C: " << endl;
+    nhapToaDo(tg.C);
+}
+
+void inToaDo(ToaDo td, char* thongbao) {
+	cout << "\n" << thongbao;
+	cout << "(" << td.x << ", " << td.y << ")";
+}
+
+bool kiemtra(TamGiac &tg) {
+	if (((tg.C.y - tg.A.y)*(tg.B.x - tg.A.x) == (tg.B.y - tg.A.y)*(tg.C.x - tg.A.x))) {
+		return 1;
+	}
+	return 0;
+}
+
+void inTamGiac(TamGiac tg, char* thongbao) {
+	cout << "\n" << thongbao;
+	inToaDo(tg.A, "-Toa do diem A la: ");
+	inToaDo(tg.B, "-Toa do diem B la: ");
+	inToaDo(tg.C, "-Toa do diem C la: ");
+}
+
+double thayToaDoVaoDuongThang(ToaDo td, DoanThang dt) {
+    return td.x*dt.a1 + td.y*dt.b1 + dt.c1;
+}
+
+bool haiDoanThangCatNhau(DoanThang a, DoanThang b) {
+    if (thayToaDoVaoDuongThang(a.diem_Dau,b) * thayToaDoVaoDuongThang(a.diem_Cuoi,b) <= 0 && thayToaDoVaoDuongThang(b.diem_Dau,a) * thayToaDoVaoDuongThang(b.diem_Cuoi,a) <= 0 )return true;
+    else return false;
+}

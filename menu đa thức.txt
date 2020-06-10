@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+typedef struct 
+{
+	int bac;
+	double heso[100];	
+}dathuc ;
+
+void nhapdathuc (dathuc &x)
+{
+	do
+	{
+			printf("\nnhap so bac cua da thuc:");
+	scanf("%d",&x.bac);
+	if (x.bac<1)
+	printf("so bac khong hop le.");
+	}while (x.bac<1);
+printf( "\nNhap cac he so (a0 -> an):\n");
+	for (int i = 0; i <= x.bac; i++) {
+		printf( "\nHe so a%d:",i) ;
+		scanf("%lf",&x.heso[i]);
+	}
+}
+
+bool quychuandathuc(dathuc x )
+{
+	if (x.heso[x.bac]==0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void xuatdathuc (dathuc x)
+{
+int count =0;
+if (quychuandathuc(x)==0)	            
+{
+	printf("%.2lf",x.heso[0]);
+	x.heso[1] < 0 ? printf(" - %.2lf*x",x.heso[1]*(-1)) : printf(" + %.2lf*x",x.heso[1]);
+	for (int i = 2; i <= x.bac; i++, count++)
+	{
+			x.heso[i] < 0 ? printf (" - %.2lf*x^%d", x.heso[i] *(-1), i) : 
+			printf(" + %.2lf*x^%d", x.heso[i], i);
+	}
+}
+	else 
+	{
+		printf("%.2lf",x.heso[0]);
+	    x.heso[1] < 0 ? printf(" - %.2lf*x",x.heso[1]*(-1)) : printf(" + %.2lf*x",x.heso[1]) ;
+	    for (int i = 2; i <= x.bac - 1; i++, count++) 
+		{
+		    x.heso[i] < 0 ? printf(" - %.2lf*x^%d",x.heso[i] *(-1), i) : printf(" + %.2lf*x^%d", x.heso[i], i);
+	}
+}
+}
+
+dathuc tong2dathuc(dathuc x, dathuc y) {
+	int max = x.bac > y.bac ? x.bac : y.bac;
+	int min = x.bac < y.bac ? x.bac : y.bac;
+	dathuc kq;
+	kq.bac = max;
+	for (int i = 0; i <= min; i++) {
+		kq.heso[i] = x.heso[i] + y.heso[i];
+	}
+	if (max == x.bac) {
+		for (int i = min + 1; i <= max; i++) {
+			kq.heso[i] = x.heso[i];
+		}
+	}
+	else {
+		for (int i = min + 1; i <= max; i++) {
+			kq.heso[i] = y.heso[i];
+		}
+	}
+	return kq;
+}
+
+dathuc hieu2dathuc(dathuc x, dathuc y) {
+	int max = x.bac > y.bac ? x.bac : y.bac;
+	int min = x.bac < y.bac ? x.bac : y.bac;
+	dathuc kq;
+	kq.bac = max;
+	for (int i = 0; i <= min; i++) {
+		kq.heso[i] = x.heso[i] - y.heso[i];
+	}
+	if (max == x.bac) {
+		for (int i = min + 1; i <= max; i++){
+			kq.heso[i] = x.heso[i];
+		}
+	}
+	else {
+		for (int i = min + 1; i <= max; i++) {
+			kq.heso[i] = 0 - y.heso[i];
+		}
+	}
+	return kq;
+}
+
+dathuc tich2dathuc(dathuc x, dathuc y) {
+    dathuc kq;
+    if ((quychuandathuc(x) == 0)) {
+    	kq.bac = x.bac + y.bac;
+	} else {
+		kq.bac = x.bac + y.bac - 1;
+	}
+    for(int i = 0; i <= x.bac; i++) {
+	    for(int j = 0; j <= y.bac; j++) {
+            kq.heso[i+j] += x.heso[i]*y.heso[j];
+        }
+    }
+    return kq;
+}
+
+double tinhgiatridathuc(dathuc &x, double X) {
+	double m;
+	for (int i = 0; i <= x.bac; i++) {
+		m += x.heso[i]*pow(X, i);
+	}
+	return m;
+}
+int main ()
+{
+	int n;
+	dathuc x;
+	nhapdathuc(x);
+	xuatdathuc(x);
+	dathuc y;
+	nhapdathuc(y);
+	xuatdathuc(y);
+	printf("\nTong 2 da thuc tren: ");
+	xuatdathuc(tong2dathuc(x, y));
+	printf("\nHieu 2 da thuc tren: ");
+	xuatdathuc(hieu2dathuc(x, y));
+	printf("\nTich 2 da thuc tren: ");
+	xuatdathuc(tich2dathuc(x, y));
+}

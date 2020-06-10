@@ -1,0 +1,434 @@
+#include <iostream>
+using namespace std;
+
+struct Date {
+	int day;
+	int month;
+	int year;
+};
+typedef Date date;
+
+struct Danhsach {
+	date a[100];
+	int n;
+};
+typedef Danhsach danhsach;
+
+void menu();
+void nhapdate (date &d);
+void inDate (date &d);
+int tinhSoNgayTrongThang(int month, int year);
+int datechuan(date &d);
+void quychuandate(date &d);
+void tinhDateHomQua(date &d);
+void tinhDateNgayMai(date &d);
+void congDate(date &d1, int ngay, date &d2);
+void truDate(date &d1, int ngay, date &d2);
+bool ktBangDate(date &d1, date &d2);
+bool ktNhoHonDate(date &d1, date &d2);
+bool ktLonHonDate(date &d1, date &d2);
+int tinhKhoangCach(date &d1, date &d2);
+int tinhThuTrongTuan (int day, int month, int year);
+void nhapds(danhsach &ds);
+void xuatds(danhsach &ds);
+void sapXepNgay(danhsach &ds);
+int dauThang(danhsach &ds);
+int cuoiThang(danhsach &ds);
+int soLuongCapLienKe(danhsach &ds);
+int thu2(danhsach &ds);
+int thu3(danhsach &ds);
+int thu4(danhsach &ds);
+int thu5(danhsach &ds);
+int thu6(danhsach &ds);
+int thu7(danhsach &ds);
+int thu8(danhsach &ds);
+
+int main () {
+	menu();
+}
+
+void menu() {
+	int ch, ch1;
+	int x;
+	danhsach ds;
+	date d;
+	nhapds(ds);
+	if (ds.n == 0) {
+		cout << "Tam biet !!!";
+	} else if (ds.n == 1) {
+		cout << "\n\t\t--------------MENU--------------";
+	    cout << "\n\t1.Tinh ngay hom qua";
+	    cout << "\n\t2.Tinh ngay mai";
+	    cout << "\n\t3.Cong ngay";
+	    cout << "\n\t4.Tru ngay";
+	    cout << "\n    *************************************************";
+	    cout << "\n\tChon 1 trong cac chuc nang tren: ";
+	    cin >> ch;
+	    switch (ch) {
+	    	case 1: {
+	    		tinhDateHomQua(ds.a[0]);
+				break;
+			}
+			case 2: {
+				tinhDateNgayMai(ds.a[0]);
+				break;
+			}
+			case 3: {
+				cout << "Nhap vao so ngay ban muon cong them: ";
+	            cin >> x;
+				congDate(ds.a[0], x, d);
+				inDate(d);
+				break;
+			}
+			case 4: {
+				cout << "Nhap vao so ngay ban muon tru di: ";
+	            cin >> x;
+				truDate(ds.a[0], x, d);
+				inDate(d);
+				break;
+			}
+		}
+	} else {
+		cout << "\n\t\t--------------MENU--------------";
+	    cout << "\n\t1.Kiem tra hai ngay vua nhap";
+	    cout << "\n\t2.Tinh khoang cach giua hai ngay";
+	    cout << "\n\t3.Sap xep ngay thang";
+	    cout << "\n    *************************************************";
+	    cout << "\n\tChon 1 trong cac chuc nang tren: ";
+	    cin >> ch;
+	    switch (ch) {
+	    	case 1: {
+	    		if (ktBangDate(ds.a[0], ds.a[1]) == 1) {
+	    			cout << "Hai ngay ban nhap vao bang nhau";
+				} else if (ktNhoHonDate(ds.a[0], ds.a[1]) == 1) {
+					cout << "Ngay thu nhat nho hon ngay thu hai";
+				} else if (ktLonHonDate(ds.a[0], ds.a[1]) == 1) {
+					cout << "Ngay thu nhat lon hon ngay thu hai";
+				}
+				break;
+			}
+			case 2: {
+				cout << "Khoang cach giua 2 ngay ban vua nhap vao la: " << tinhKhoangCach(ds.a[0], ds.a[1]);
+				break;
+			}
+			case 3: {
+				cout << "\nSAP XEP NGAY TANG DAN";
+				sapXepNgay(ds);
+				xuatds(ds);
+				break;
+			}
+		}
+	}
+}
+
+void nhapdate (date &d) {
+	cout << "\nNhap ngay: ";
+	cin >> d.day;
+	cout << "Nhap thang: ";
+	cin >> d.month;
+	cout << "Nhap nam: ";
+	cin >> d.year;
+}
+
+void inDate (date &d) {
+	cout << d.day << "/" << d.month << "/" << d.year;
+} 
+
+int tinhSoNgayTrongThang(int month, int year) {
+    switch (month) {
+        case 2:
+            return (((year % 4 != 0) || (year % 100 == 0) && (year % 400 != 0)) ? 0 : 1) ? 29 : 28;
+        case 4: case 6: case 9: case 11:
+            return 30;
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            return 31;
+        default:
+            return 0;
+    }
+    return -1;
+}
+
+int datechuan(date &d) {
+	if (d.month < 1 || d.month > 12) {
+		return 0;
+	}
+	if ((d.day < 1) || (d.day > tinhSoNgayTrongThang(d.month, d.year))) {
+	    return 0;
+	} else return 1;
+}
+
+void quychuandate(date &d) {
+	if (datechuan(d) == 1) {
+		cout << "Chuan roi.";
+		cout << "\n\n--------------------";
+	} else {
+	    int luachon;
+	    cout << "\nNgay ban vua nhap khong ton tai.\n";
+	    cout << "1.Dung quy chuan cua may.\n";
+	    cout << "2.Tu nhap lai\n";
+	    cin >> luachon;
+	    switch(luachon) {
+		    case 1:
+			    if (d.month > 12) {
+				    d.month = 12;
+			    } else if (d.month < 1) {
+				    d.month = 1;
+			    } 
+			    if (d.day > tinhSoNgayTrongThang(d.month, d.year)) {
+				    d.day = tinhSoNgayTrongThang(d.month, d.year);
+			    } else if (d.day < 1) {
+				    d.day = 1;
+			    }
+			    inDate(d);
+		        break;
+		    case 2:
+			    cout << "Nhap lai ngay: ";
+		        cin >> d.day;
+			    cout << "Nhap lai thang: ";
+			    cin >> d.month;
+			    inDate (d);
+			    break;
+		    default:
+			    cout << "Thoat chuong trinh";
+			    break;
+	    }
+	}
+}
+
+void tinhDateHomQua(date &d) {
+	d.day--;
+	if (d.day == 0) {
+		d.month--;
+		if (d.month == 0) {
+			d.month = 12;
+			d.year--;
+		}
+        d.day = tinhSoNgayTrongThang(d.month, d.year);
+	}
+	inDate(d);
+}
+
+void tinhDateNgayMai(date &d) {
+	d.day++;
+	if (d.day > tinhSoNgayTrongThang(d.month, d.year)) {
+		d.day = 1;
+		d.month++;
+		if (d.month > 12) {
+			d.month = 1;
+			d.year;
+		}
+	}
+	inDate(d);
+}
+
+void congDate(date &d1, int ngay, date &d2) { 
+    d2 = d1;
+    while (ngay > 0) {
+        d2.day++;
+        if (d2.day > tinhSoNgayTrongThang(d2.month, d2.year)) {
+            d2.day = 1;
+            d2.month++;
+            if (d2.month > 12) {
+                d2.year++;
+                d2.month = 1;
+                d2.day = 1;
+            }
+        }
+        ngay--;
+    }
+}
+
+void truDate(date &d1, int ngay, date &d2) {
+    d2 = d1;
+    while (ngay > 0) {
+        d2.day--;
+        if (d2.day <= 0) {
+            d2.month--;
+            d2.day = tinhSoNgayTrongThang(d2.month, d2.year);
+            if (d2.month <= 0) {
+                d2.year--;
+                d2.month = 12;
+                d2.day = 31;
+            }
+        }
+        ngay--;
+    }
+}
+
+bool ktBangDate(date &d1, date &d2) {
+    if (d1.day == d2.day && d1.month == d2.month && d1.year == d2.year) return true;
+    else return false;
+}
+
+bool ktNhoHonDate(date &d1, date &d2) {
+    if (d1.year < d2.year) return true;
+    else if (d1.year == d2.year && d1.month < d2.month) return true;
+    else if (d1.year == d2.year && d1.month == d2.month && d1.day < d2.day) return true;
+    else return false;
+}
+
+bool ktLonHonDate(date &d1, date &d2) {
+    if (d1.year > d2.year) return true;
+    else if (d1.year == d2.year && d1.month > d2.month) return true;
+    else if (d1.year == d2.year && d1.month == d2.month && d1.day > d2.day) return true;
+    else return false;
+}
+
+int tinhKhoangCach(date &d1, date &d2) {
+    int count = 0;
+    date d1_copy = d1, d2_copy = d2;
+    if (ktLonHonDate(d1_copy, d2_copy)) {
+        while (ktBangDate(d1_copy, d2_copy) != true) {
+            congDate(d2_copy, 1, d2_copy);
+            count++;
+        }
+    }
+    else {
+        while (ktBangDate(d1_copy,d2_copy) != true) {
+            congDate(d1_copy, 1, d1_copy);
+            count++;
+        }
+    }
+    return count;
+}
+
+int tinhThuTrongTuan (int day, int month, int year) {
+    int JMD = 0;
+    JMD = (day + ((153 * (month + 12 * ((14 - month) / 12) - 3) + 2) / 5) +
+    (365 * (year + 4800 - ((14 - month) / 12))) +
+    ((year + 4800 - ((14 - month) / 12)) / 4) -
+    ((year + 4800 - ((14 - month) / 12)) / 100) +
+    ((year + 4800 - ((14 - month) / 12)) / 400)  - 32045) % 7;
+    return JMD;
+}
+
+void nhapds (danhsach &ds) {
+	cout << "Nhap so luong ngay thang: ";
+	cin >> ds.n;
+	for (int i = 0; i < ds.n; i++) {
+		cout << "\n\nNhap ngay thu " << i + 1 << ": ";
+		nhapdate(ds.a[i]);
+		quychuandate(ds.a[i]);
+	}
+}
+
+void xuatds (danhsach &ds) {
+	for (int i = 0; i < ds.n; i++) {
+		cout << "\n";
+		inDate(ds.a[i]);
+		cout << "\n";
+	}
+}
+
+void sapXepNgay(danhsach &ds) {
+    date temp;
+    for (int i = 0; i < ds.n - 1; i++) {
+        for (int j = i + 1 ; j < ds.n; j++) {
+            if (ktLonHonDate(ds.a[i], ds.a[j])) {
+                temp = ds.a[i];
+                ds.a[i] = ds.a[j];
+                ds.a[j] = temp;
+            }
+        }
+    }
+}
+
+int dauThang(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (ds.a[i].day == 1) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int cuoiThang(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (ds.a[i].day == tinhSoNgayTrongThang(ds.a[i].month, ds.a[i].year)) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int soLuongCapLienKe(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n - 1; i++) {
+		if (tinhKhoangCach(ds.a[i], ds.a[i + 1]) == 1) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu2(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 2) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu3(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 3) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu4(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 4) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu5(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 5) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu6(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 6) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu7(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 7) {
+			dem ++;
+		}
+	}
+	return dem;
+}
+
+int thu8(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (tinhThuTrongTuan(ds.a[i].day, ds.a[i].month, ds.a[i].year) == 8) {
+			dem ++;
+		}
+	}
+	return dem;
+}

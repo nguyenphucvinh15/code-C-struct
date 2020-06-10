@@ -1,0 +1,121 @@
+#include <iostream>
+#include <stdlib.h>
+#include <cmath>
+using namespace std;
+
+struct phanso {
+    int tu;
+    int mau;
+};
+typedef phanso PS;
+
+void nhapPhanSo(PS &ps);
+void inPhanSo(PS ps);
+int UCLN(int a, int b);
+void toiGianPhanSo(PS &ps);
+PS tongPhanSo(PS a, PS b);
+PS hieuPhanSo(PS a, PS b);
+PS tichPhanSo(PS a, PS b);
+PS thuongPhanSo(PS a, PS b);
+bool soSanhNhoHonPhanSo(PS a, PS b);
+
+
+int main() {
+	PS x, y;
+	cout << "\nNhap phan so thu nhat: ";
+	nhapPhanSo(x);
+	inPhanSo(x);
+	cout << "\n-----------------------------------";
+	cout << "\nNhap phan so thu hai: ";
+	nhapPhanSo(y);
+	inPhanSo(y);
+	cout << "\n";
+	cout << "-----------------------------------";
+	cout << "\n";
+	phanso tong = tongPhanSo(x, y);
+	cout << "\nTong hai phan so la: \n";
+	inPhanSo(tong);
+	phanso hieu = hieuPhanSo(x, y);
+	cout << "\nHieu hai phan so la:  \n";
+	inPhanSo(hieu);
+	phanso tich = tichPhanSo(x, y);
+	cout << "\nTich hai phan so la: \n";
+	inPhanSo(tich);
+	phanso thuong = thuongPhanSo(x, y);
+	cout << "\nThuong hai phan so la:  \n";
+	inPhanSo(thuong);
+	if (soSanhNhoHonPhanSo(x, y) == 1) {
+		cout << "\n\nPhan so thu nhat nho hon phan so thu hai!!!";
+	} else {
+		cout << "\nPhan so thu nhat khong nho hon phan so thu hai!!!";
+	}
+}
+
+void nhapPhanSo(PS &ps) {
+    cout << "\nNhap vao tu so: ";
+    cin >> ps.tu;
+    do {
+		cout << "\nNhap vao mau so: ";
+		cin >> ps.mau;
+		if (ps.mau == 0)
+			cout << "\nMau phai khac khong\nVui long kiem tra lai";
+	} while (ps.mau == 0);
+}
+
+void inPhanSo(PS ps) {
+	cout << "Phan so: " << ps.tu << " / " << ps.mau;
+}
+
+int UCLN(int a, int b) {
+	a = abs(a);
+	b = abs(b);
+    if (b == 0) return a;
+    return UCLN(b, a % b);
+}
+
+void toiGianPhanSo(PS &ps) {
+	int c = UCLN(ps.tu,ps.mau);
+	ps.tu = ps.tu/c;
+	ps.mau = ps.mau/c;
+}
+
+PS tongPhanSo(PS a, PS b) {
+	PS tong;
+	tong.tu = a.tu*b.mau + b.tu*a.mau;
+    tong.mau = a.mau*b.mau;
+	toiGianPhanSo(tong);
+	return tong;
+}
+
+PS hieuPhanSo(PS a, PS b) {
+	PS h;
+	h.tu = a.tu*b.mau - b.tu*a.mau;
+    h.mau = a.mau*b.mau;
+	toiGianPhanSo(h);
+	return h;
+}
+
+PS tichPhanSo(PS a, PS b) {
+	PS tich;
+	tich.tu = a.tu*b.tu;
+	tich.mau = a.mau*b.mau;
+	toiGianPhanSo(tich);
+	return tich;
+}
+
+PS thuongPhanSo(PS a, PS b) {
+	PS thuong;
+	thuong.tu = a.tu*b.mau;
+	thuong.mau = a.mau*b.tu;
+	toiGianPhanSo(thuong);
+	return thuong;
+}
+
+bool soSanhNhoHonPhanSo(PS a, PS b) {
+    PS h;
+	h.tu = a.tu*b.mau - b.tu*a.mau;
+	if (h.tu < 0) {
+	    return 1;
+	} else {
+		return 0;
+	}

@@ -1,0 +1,84 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath> 
+using namespace std;
+
+struct DaThuc{
+	int bac;
+	int a;
+	int b;
+	double mang_he_so[100];
+};
+typedef DaThuc dathuc;
+
+int C(int n, int k);
+void nhapDaThuc(dathuc &x);
+void inDaThuc(dathuc x);
+void inputarray(dathuc &x);
+void inTamgiac(dathuc &x);
+void print_rectangle(dathuc &x);
+double tongDaThuc(dathuc x);
+
+int main() {
+	dathuc x;
+	nhapDaThuc(x);
+	inDaThuc(x);
+	cout << "\n\nTam giac Pascal cua da thuc la: \n";
+	print_rectangle(x);
+	cout << "\n----------------------------------------";
+	cout << "\nTong cua da thuc la: ";
+	cout << "\n(" << x.a << " + " << x.b << ")" << " ^ " << x.bac << " = " << tongDaThuc(x);
+}
+
+int C(int n, int k) {
+	if (k == 0 || k == n)
+		return 1;
+	return (C(n - 1, k - 1) + C(n - 1, k));
+}
+
+void nhapDaThuc(dathuc &x) {
+	do {
+		cout << "\nNhap so bac cua da thuc: ";
+		cin >> x.bac;
+		if (x.bac < 1)
+			cout << "\nSo bac cua da thuc khong hop le.\n";
+	} while (x.bac < 1);
+    
+    cout << "\nNhap vao he so a = ";
+    cin >> x.a;
+    cout << "\nNhap vao he so b = ";
+    cin >> x.b;
+}
+
+void inDaThuc(dathuc x) {
+	cout << "\nDa thuc cua ban la: ";
+	cout << "(" << x.a << " + " << x.b << ")" << " ^ " << x.bac;
+}
+
+void inputarray(dathuc &x) {
+        for (int i = 0; i <= x.bac; i++) {
+            x.mang_he_so[i] = C(x.bac, i)*pow(x.a, x.bac - i)*pow(x.b, i);
+        }
+    }
+    
+void inTamgiac(dathuc &x) {
+    for (int i = 0; i <= x.bac; i++) {
+        cout << setw(8) << x.mang_he_so[i];
+    }
+}
+    
+void print_rectangle(dathuc &x) {
+    for (int i = 0; i <= x.bac; i++) {
+        inputarray(x);
+    }
+	inTamgiac(x);
+    cout << endl;
+}
+
+double tongDaThuc(dathuc x) {
+    double t = 0;
+    for (int i = 0; i <= x.bac; i++) {
+        t += x.mang_he_so[i];
+    }
+    return t;
+}

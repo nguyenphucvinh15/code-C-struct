@@ -1,0 +1,275 @@
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+using namespace std;
+
+struct Date {
+	int ngay;
+	int thang;
+	int nam;
+};
+typedef Date date;
+
+struct DiemMonHoc{
+	float diemtp;
+	float diemck;
+};
+typedef DiemMonHoc diemmonhoc;
+
+struct SinhVien{
+	int mssv;
+    char ho_ten[30];
+    Date ngay_sinh;
+    DiemMonHoc int1006;
+};
+typedef SinhVien sinhvien;
+
+struct DanhSach {
+	SinhVien a[100];
+	int n;
+};
+typedef DanhSach danhsach;
+
+void nhapngaythang(date &ntn);
+void xuatngaythang(date ntn);
+void nhapDiem(diemmonhoc &dmh);
+void inDiem(diemmonhoc dmh);
+float dtkSinhVien(diemmonhoc &dmh);
+void nhapSinhVien(sinhvien &sv);
+void inSinhVien(sinhvien sv);
+char xhSinhVien(sinhvien &sv);
+void nhapdanhsach(danhsach &ds);
+void xuatdanhsach(danhsach ds);
+float dtbLop(danhsach &ds);
+void intb(danhsach ds);
+void sapxep(danhsach &ds);
+int demA(danhsach &ds);
+int demB(danhsach &ds);
+int demC(danhsach &ds);
+int demD(danhsach &ds);
+int demF(danhsach &ds);
+void indem(danhsach &ds);
+void sinhvienF(danhsach &ds);
+void sinhvienD(danhsach &ds);
+
+int main() {
+	danhsach ds;
+	diemmonhoc dmh;
+    nhapdanhsach(ds);
+    cout << "\nDANH SACH THONG TIN SINH VIEN";
+    cout << "\n\n";
+    sapxep(ds);
+    xuatdanhsach(ds);
+    indem(ds);
+    sinhvienF(ds);
+    sinhvienD(ds);
+}
+
+void nhapngaythang(date &ntn) {
+	do {
+		cout << "\nNhap vao ngay: ";
+		cin >> ntn.ngay;
+	} while(ntn.ngay < 0 || ntn.ngay > 31);
+	do {
+		cout << "Nhap vao thang: ";
+		cin >> ntn.thang;
+	} while(ntn.thang < 0 || ntn.thang > 12);
+	cout << "Nhap vao nam: ";
+	cin >> ntn.nam;
+}
+
+void xuatngaythang(date ntn) {
+    cout << ntn.ngay << " - " << ntn.thang << " - " << ntn.nam;
+}
+
+void nhapDiem(diemmonhoc &dmh) {
+	cout << "\nNhap vao diem thanh phan: ";
+	cin >> dmh.diemtp;
+	cout << "Nhap vao diem cuoi ki: ";
+	cin >> dmh.diemck;
+}
+
+void inDiem(diemmonhoc dmh) {
+	cout << "\nDiem thanh phan: " << dmh.diemtp;
+	cout << "\nDiem cuoi ky: " << dmh.diemck;
+}
+
+float dtkSinhVien(diemmonhoc &dmh){
+	float tk;
+	tk = (dmh.diemtp*0.4 + dmh.diemck*0.6);
+	return tk;
+}
+void nhapSinhVien(sinhvien &sv) {
+	cout << "\nNhap vao ho va ten sinh vien: ";
+	fflush(stdin);
+	gets(sv.ho_ten);
+	cout << "Nhap vao ma so sinh vien: ";
+	cin >> sv.mssv;
+	cout << "\nNgay sinh cua sinh vien: ";
+	nhapngaythang(sv.ngay_sinh);
+	cout << "\nNhap vao diem mon int1006: ";
+	nhapDiem(sv.int1006);
+	cout << "\n-------------------------------------------------------------------";
+}
+
+void inSinhVien(sinhvien sv) {
+	cout << "\nHo va ten sinh vien: " << sv.ho_ten;
+	cout << "\nMa so sinh vien: " << sv.mssv;
+	cout << "\nNgay sinh: ";
+	xuatngaythang(sv.ngay_sinh);
+	cout << "\nDiem mon int1006: ";
+	inDiem(sv.int1006);
+	cout << "\nDiem tong ket: " << dtkSinhVien(sv.int1006);
+	cout << "\nXep loai: " << xhSinhVien(sv);
+	cout << "\n-------------------------------------------------------------------";
+}
+
+char xhSinhVien(sinhvien &sv) {
+	float tk = dtkSinhVien(sv.int1006);
+	if(tk >= 8.5)
+		return 'A';
+	else if(tk >= 7 && tk < 8.5)
+		return 'B';
+	else if(tk >= 5.5 && tk < 7)
+		return 'C';
+	else if(tk >= 4 && tk < 5.5)
+		return 'D';
+	else
+		return 'F';
+}
+
+void nhapdanhsach(danhsach &ds) {
+	
+	cout << "\nNhap so luong sinh vien: ";
+	cin >> ds.n;
+	cout << "\n\nNhap thong tin sinh vien:";
+	for (int i = 0;i < ds.n; i++) {
+		cout << "\n\nSINH VIEN THU " << i + 1;
+		nhapSinhVien(ds.a[i]);
+	}
+}
+
+void xuatdanhsach(danhsach ds) {
+	for (int i = 0; i < ds.n; i++) {
+	    inSinhVien(ds.a[i]);
+	}
+	intb(ds);
+}
+
+float dtbLop(danhsach &ds) {
+	float tb;
+	for (int i = 0; i < ds.n; i++) {
+	    tb += dtkSinhVien(ds.a[i].int1006);
+	}
+	return (float)tb/ds.n;
+}
+
+void intb(danhsach ds) {
+	cout << "\nDiem trung binh cua lop la: " << dtbLop(ds);
+}
+
+void sapxep(danhsach &ds) {
+	sinhvien tmp;
+    for (int i = 0; i < ds.n; i++) {
+        for (int j = i + 1; j < ds.n; j++) {
+            if (dtkSinhVien(ds.a[i].int1006) < dtkSinhVien(ds.a[j].int1006)) {
+                tmp = ds.a[i];
+                ds.a[i] = ds.a[j];
+                ds.a[j] = tmp;
+            }
+        }
+    }
+}
+
+int demA(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (xhSinhVien(ds.a[i]) == 'A') {
+			dem++;
+		}
+	}
+	return dem;
+}
+
+int demB(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (xhSinhVien(ds.a[i]) == 'B') {
+			dem++;
+		}
+	}
+	return dem;
+}
+
+int demC(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (xhSinhVien(ds.a[i]) == 'C') {
+			dem++;
+		}
+	}
+	return dem;
+}
+int demD(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (xhSinhVien(ds.a[i]) == 'D') {
+			dem++;
+		}
+	}
+	return dem;
+}
+
+int demF(danhsach &ds) {
+	int dem;
+	for (int i = 0; i < ds.n; i++) {
+		if (xhSinhVien(ds.a[i]) == 'F') {
+			dem++;
+		}
+	}
+	return dem;
+}
+
+void indem(danhsach &ds) {
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\nTHONG KE THU HANG SINH VIEN";
+	cout << "\nCo " << demA(ds) << " sinh vien xep loai A.";
+	cout << "\nCo " << demB(ds) << " sinh vien xep loai B.";
+	cout << "\nCo " << demC(ds) << " sinh vien xep loai C.";
+	cout << "\nCo " << demD(ds) << " sinh vien xep loai D.";
+	cout << "\nCo " << demF(ds) << " sinh vien xep loai F.";
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+}
+
+void sinhvienF(danhsach &ds) {
+	cout << "\nDANH SACH SINH VIEN TRUOT MON INT1006: ";
+	for (int i = 0; i < ds.n; i++) {
+		if (demF(ds) == 0) {
+			cout << "\nKhong co sinh vien nao!!!";
+			break;
+		}
+		if (xhSinhVien(ds.a[i]) == 'F') {
+			cout << "\n" << ds.a[i].mssv << endl;
+		}
+	}
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+	cout << "\n-------------------------------------------------------------------";
+}
+
+void sinhvienD(danhsach &ds) {
+	cout << "\nDANH SACH SINH VIEN DUOC LAM BAI KIEM TRA CAI THIEN: ";
+	for (int i = 0; i < ds.n; i++) {
+		if (demD(ds) == 0) {
+			cout << "\nKhong co sinh vien nao!!!";
+			break;
+		}
+		if (xhSinhVien(ds.a[i]) == 'D') {
+			cout << "\n" << ds.a[i].mssv << endl;
+		}
+	}
+}

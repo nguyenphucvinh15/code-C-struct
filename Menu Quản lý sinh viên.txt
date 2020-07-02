@@ -1,5 +1,5 @@
-#include stdio.h
-#include string.h
+#include <stdio.h>
+#include <string.h>
 typedef struct 
 {
 	char ho[20];
@@ -28,11 +28,11 @@ typedef struct
 }danhsach;
 void nhapten (hoten &ten)
 {
-	printf(nhap ho);
-	scanf(%s,&ten.ho);
-	printf(nhap ten dem);
-	scanf(%s,&ten.dem);
-	printf(nhap ten);
+	printf("nhap ho");
+	scanf("%s",&ten.ho);
+	printf("nhap ten dem");
+	scanf("%s",&ten.dem);
+	printf("nhap ten");
 	scanf(%s,&ten.ten);
 }
 void xuatten (hoten &ten)

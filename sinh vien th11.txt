@@ -1,0 +1,100 @@
+#include <stdio.h>
+typedef struct
+{
+    char msv[8];
+    char hoten[1000];
+    float tin;
+    float ta;
+    float ctdl;
+    float tbc;
+} sinhvien;
+typedef struct
+{
+    sinhvien a[100];
+    int n;
+} danhsach;
+void nhap(sinhvien &sv)
+{
+    printf("nhap MSV:");
+    fflush(stdin);
+    fgets(sv.msv, 8, stdin);
+    printf("Ho va ten:");
+    gets(sv.hoten);
+    do
+    {
+        printf("nhap diem tin hoc co so:");
+        scanf("%f",&sv.tin);
+
+    } while (sv.tin > 10 && sv.tin < 0);
+
+    do
+    {
+        printf("\nnhap diem tieng anh:");
+        scanf("%f", &sv.ta);
+    } while (sv.ta>10 & sv.ta< 0);
+
+    do
+    {
+        printf("\nnhap diem cau truc du lieu:");
+        scanf("%f", &sv.ctdl);
+    } while (sv.ctdl>10 & sv.ctdl< 0);
+    sv.tbc = (sv.tin + sv.ctdl + sv.ta) / 3;
+}
+void xuat(sinhvien &sv)
+{
+    printf("\nsinh vien: %s", sv.hoten);
+}
+
+void nhapds(danhsach &ds)
+{
+    printf("nhap so sinh vien can xet thong tin:");
+    scanf("%d", &ds.n);
+    for (int i = 0; i < ds.n; i++)
+    {
+    	printf("sinh vien %d\n",i+1);
+        nhap(ds.a[i]);
+    }
+}
+void diemtbclonhon4(danhsach &ds)
+{
+    for (int i = 0; i < ds.n; i++)
+    {
+        if (ds.a[i].tbc >= 4)
+        {
+            xuat(ds.a[i]);
+        }
+    }
+}
+void diemkhongduoi3(danhsach &ds)
+{
+    for (int i = 0; i < ds.n; i++)
+    {
+        if (ds.a[i].tin >= 3 && ds.a[i].ta >= 3 && ds.a[i].ctdl >= 3)
+        {
+            xuat(ds.a[i]);
+        }
+    }
+}
+void comotmonduoi4(danhsach &ds)
+{
+    for (int i = 0; i < ds.n; i++)
+    {
+        if (ds.a[i].tin < 4 && ds.a[i].ctdl >= 4 && ds.a[i].ta >= 4 ||
+            ds.a[i].ctdl < 4 && ds.a[i].tin >= 4 && ds.a[i].ta >= 4 ||
+            ds.a[i].ta < 4 && ds.a[i].tin >= 4 && ds.a[i].ctdl >= 4)
+        {
+            xuat(ds.a[i]);
+        }
+    }
+}
+int main()
+{
+    danhsach ds;
+    nhapds(ds);
+    printf("\ndanh sach sinh vien co diem trung binh cong lon hon 4:");
+	diemtbclonhon4(ds);
+    printf("\ndanh sach sinh vien khong co mon nao diem duoi 3:");
+    diemkhongduoi3(ds);
+    printf("\ndanh sach sinh vien co nhieu nhat mot mon diem duoi 4:");
+    comotmonduoi4(ds);
+}

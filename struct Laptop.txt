@@ -1,0 +1,119 @@
+#include <stdio.h>
+typedef struct
+{
+    char name[50];
+    int size;
+    int price;
+} laptop;
+typedef struct
+{
+    laptop a[100];
+    int n;
+} danhsach;
+void nhap(laptop &lt)
+{
+    printf("Ten laptop: ");
+    fflush(stdin);
+    gets(lt.name);
+    printf("nhap size:");
+    scanf("%d", &lt.size);
+    printf("nhap price:");
+    scanf("%d", &lt.price);
+}
+void xuat(laptop &lt)
+{
+    printf("Name: %s\n", lt.name);
+    printf("Size:%d\n", lt.size);
+    printf("Price:%d\n", lt.price);
+}
+int checkCore(laptop &lt)
+{
+    if (lt.price > 20000 && ((lt.price > 15000 && lt.price < 20000) && lt.size > 15))
+    {
+        return 7;
+    }
+    if (((15000 < lt.price && lt.price < 20000) && lt.size < 15) && ((lt.price > 5000 && lt.price < 15000) && lt.size > 10))
+    {
+        return 5;
+    }
+    else
+        return 3;
+}
+void nhapds(danhsach &ds)
+{
+    printf("nhap so laptop can kiem tra:");
+    scanf("%d", &ds.n);
+    for (int i = 0; i < ds.n; i++)
+    {
+        nhap(ds.a[i]);
+    }
+}
+void xuatds(danhsach &ds)
+{
+    for (int i = 0; i < ds.n; i++)
+    {
+        xuat(ds.a[i]);
+    }
+}
+void sxCPU(danhsach &ds)
+{
+    laptop temp;
+    for (int i = 0; i < ds.n - 1; i++)
+    {
+        for (int j = i + 1; j < ds.n; j++)
+        {
+            if (checkCore(ds.a[i]) < checkCore(ds.a[j]))
+            {
+                temp = ds.a[i];
+                ds.a[i] = ds.a[j];
+                ds.a[j] = temp;
+            }
+        }
+    }
+}
+void sxprice(danhsach &ds)
+{
+    laptop temp;
+    for (int i = 0; i < ds.n - 1; i++)
+    {
+        for (int j = i + 1; j < ds.n; j++)
+        {
+            if (ds.a[i].price < ds.a[j].price)
+            {
+                temp = ds.a[i];
+                ds.a[i] = ds.a[j];
+                ds.a[j] = temp;
+            }
+        }
+    }
+}
+void sxsize(danhsach &ds)
+{
+    laptop temp;
+    for (int i = 0; i < ds.n - 1; i++)
+    {
+        for (int j = i + 1; j < ds.n; j++)
+        {
+            if (ds.a[i].size > ds.a[j].size)
+            {
+                temp = ds.a[i];
+                ds.a[i] = ds.a[j];
+                ds.a[j] = temp;
+            }
+        }
+    }
+}
+int main()
+{
+    danhsach ds;
+    nhapds(ds);
+    sxCPU(ds);
+    printf("danh sach laptop co CPU tu be den lon\n");
+    xuatds(ds);
+    sxprice(ds);
+    printf("\ndanh sach laptop co gia tien tu lon den nho\n");
+    xuatds(ds);
+    sxsize(ds);
+    printf("\ndanh sach laptop co kich co tu nho den lon\n");
+    xuatds(ds);
+}

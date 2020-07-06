@@ -1,5 +1,4 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
 struct Date {
 	int day;
@@ -54,16 +53,16 @@ void menu() {
 	date d;
 	nhapds(ds);
 	if (ds.n == 0) {
-		cout << "Tam biet !!!";
+		printf("Tam biet !!!");
 	} else if (ds.n == 1) {
-		cout << "\n\t\t--------------MENU--------------";
-	    cout << "\n\t1.Tinh ngay hom qua";
-	    cout << "\n\t2.Tinh ngay mai";
-	    cout << "\n\t3.Cong ngay";
-	    cout << "\n\t4.Tru ngay";
-	    cout << "\n    *************************************************";
-	    cout << "\n\tChon 1 trong cac chuc nang tren: ";
-	    cin >> ch;
+		printf("\n\t\t--------------MENU--------------");
+	    printf("\n\t1.Tinh ngay hom qua");
+	    printf("\n\t2.Tinh ngay mai");
+	    printf("\n\t3.Cong ngay");
+	    printf("\n\t4.Tru ngay");
+	    printf("\n    *************************************************");
+	    printf("\n\tChon 1 trong cac chuc nang tren: ");
+	    scanf("%d",&ch);
 	    switch (ch) {
 	    	case 1: {
 	    		tinhDateHomQua(ds.a[0]);
@@ -74,45 +73,45 @@ void menu() {
 				break;
 			}
 			case 3: {
-				cout << "Nhap vao so ngay ban muon cong them: ";
-	            cin >> x;
+				printf("Nhap vao so ngay ban muon cong them: ");
+	            scanf("%d",&x);
 				congDate(ds.a[0], x, d);
 				inDate(d);
 				break;
 			}
 			case 4: {
-				cout << "Nhap vao so ngay ban muon tru di: ";
-	            cin >> x;
+				printf("Nhap vao so ngay ban muon tru di: ");
+	            scanf("%d",&x);
 				truDate(ds.a[0], x, d);
 				inDate(d);
 				break;
 			}
 		}
 	} else {
-		cout << "\n\t\t--------------MENU--------------";
-	    cout << "\n\t1.Kiem tra hai ngay vua nhap";
-	    cout << "\n\t2.Tinh khoang cach giua hai ngay";
-	    cout << "\n\t3.Sap xep ngay thang";
-	    cout << "\n    *************************************************";
-	    cout << "\n\tChon 1 trong cac chuc nang tren: ";
-	    cin >> ch;
+		printf("\n\t\t--------------MENU--------------");
+	    printf("\n\t1.Kiem tra hai ngay vua nhap");
+	    printf("\n\t2.Tinh khoang cach giua hai ngay");
+	    printf("\n\t3.Sap xep ngay thang");
+	    printf("\n    *************************************************");
+	    printf("\n\tChon 1 trong cac chuc nang tren: ");
+	    scanf("%d", &ch);
 	    switch (ch) {
 	    	case 1: {
 	    		if (ktBangDate(ds.a[0], ds.a[1]) == 1) {
-	    			cout << "Hai ngay ban nhap vao bang nhau";
+	    			printf("Hai ngay ban nhap vao bang nhau");
 				} else if (ktNhoHonDate(ds.a[0], ds.a[1]) == 1) {
-					cout << "Ngay thu nhat nho hon ngay thu hai";
+					printf("Ngay thu nhat nho hon ngay thu hai");
 				} else if (ktLonHonDate(ds.a[0], ds.a[1]) == 1) {
-					cout << "Ngay thu nhat lon hon ngay thu hai";
+					printf("Ngay thu nhat lon hon ngay thu hai");
 				}
 				break;
 			}
 			case 2: {
-				cout << "Khoang cach giua 2 ngay ban vua nhap vao la: " << tinhKhoangCach(ds.a[0], ds.a[1]);
+				printf("Khoang cach giua 2 ngay ban vua nhap vao la:%d",tinhKhoangCach(ds.a[0], ds.a[1]));
 				break;
 			}
 			case 3: {
-				cout << "\nSAP XEP NGAY TANG DAN";
+				printf("\nSAP XEP NGAY TANG DAN");
 				sapXepNgay(ds);
 				xuatds(ds);
 				break;
@@ -122,16 +121,16 @@ void menu() {
 }
 
 void nhapdate (date &d) {
-	cout << "\nNhap ngay: ";
-	cin >> d.day;
-	cout << "Nhap thang: ";
-	cin >> d.month;
-	cout << "Nhap nam: ";
-	cin >> d.year;
+	printf("\nNhap ngay: ");
+	scanf("%d",&d.day);
+	printf("Nhap thang: ");
+	scanf("%d",&d.month);
+	printf("Nhap nam: ");
+	scanf("%d",&d.year);
 }
 
 void inDate (date &d) {
-	cout << d.day << "/" << d.month << "/" << d.year;
+	printf("%d/%d/%d",d.day,d.month,d.year);
 } 
 
 int tinhSoNgayTrongThang(int month, int year) {
@@ -159,14 +158,14 @@ int datechuan(date &d) {
 
 void quychuandate(date &d) {
 	if (datechuan(d) == 1) {
-		cout << "Chuan roi.";
-		cout << "\n\n--------------------";
+		printf("Chuan roi.");
+		printf("\n\n--------------------");
 	} else {
 	    int luachon;
-	    cout << "\nNgay ban vua nhap khong ton tai.\n";
-	    cout << "1.Dung quy chuan cua may.\n";
-	    cout << "2.Tu nhap lai\n";
-	    cin >> luachon;
+	    printf("\nNgay ban vua nhap khong ton tai.\n");
+	    printf("1.Dung quy chuan cua may.\n");
+	    printf("2.Tu nhap lai\n");
+	    scanf("%d",&luachon);
 	    switch(luachon) {
 		    case 1:
 			    if (d.month > 12) {
@@ -182,14 +181,14 @@ void quychuandate(date &d) {
 			    inDate(d);
 		        break;
 		    case 2:
-			    cout << "Nhap lai ngay: ";
-		        cin >> d.day;
-			    cout << "Nhap lai thang: ";
-			    cin >> d.month;
+			    printf("Nhap lai ngay: ");
+		        scanf("%d", &d.day);
+			    printf("Nhap lai thang: ");
+			    scanf("%d",&d.month);
 			    inDate (d);
 			    break;
 		    default:
-			    cout << "Thoat chuong trinh";
+			    printf("Thoat chuong trinh");
 			    break;
 	    }
 	}
@@ -303,10 +302,10 @@ int tinhThuTrongTuan (int day, int month, int year) {
 }
 
 void nhapds (danhsach &ds) {
-	cout << "Nhap so luong ngay thang: ";
-	cin >> ds.n;
+	printf("Nhap so luong ngay thang: ");
+	scanf("%d",&ds.n);
 	for (int i = 0; i < ds.n; i++) {
-		cout << "\n\nNhap ngay thu " << i + 1 << ": ";
+		printf("\n\nNhap ngay thu %d:",i + 1);
 		nhapdate(ds.a[i]);
 		quychuandate(ds.a[i]);
 	}
@@ -314,9 +313,9 @@ void nhapds (danhsach &ds) {
 
 void xuatds (danhsach &ds) {
 	for (int i = 0; i < ds.n; i++) {
-		cout << "\n";
+		printf("\n");
 		inDate(ds.a[i]);
-		cout << "\n";
+		printf( "\n");
 	}
 }
 

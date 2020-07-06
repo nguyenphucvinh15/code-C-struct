@@ -1,0 +1,99 @@
+#include <stdio.h>
+typedef struct
+{
+    int mat[100][100];
+    int hang;
+    int cot;
+} matran;
+
+void nhap(matran &mt)
+{
+    printf("nhap so hang:");
+    scanf("%d", &mt.hang);
+    printf("nhap so cot:");
+    scanf("%d", &mt.cot);
+    for (int i = 0; i < mt.hang; i++)
+    {
+        for (int j = 0; j < mt.cot; j++)
+        {
+            scanf("%d", &mt.mat[i][j]);
+        }
+    }
+}
+void xuat(matran &mt)
+{
+    for (int i = 0; i < mt.hang; i++)
+    {
+        for (int j = 0; j < mt.cot; j++)
+        {
+            printf("%5d", mt.mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+void tong2mt(matran &mt1, matran &mt2, matran &tong)
+{
+    tong.hang = mt1.hang;
+    tong.cot = mt1.cot;
+    if (mt1.hang == mt2.hang && mt1.cot == mt2.cot)
+    {
+        for (int i = 0; i < mt1.hang; i++)
+        {
+            for (int j = 0; j < mt1.cot; j++)
+            {
+                tong.mat[i][j] = mt1.mat[i][j] + mt2.mat[i][j];
+            }
+        }
+    }
+    else
+        printf("khong du dieu kien de cong hai ma tran");
+}
+void tichmatran(matran &mt1, matran &mt2, matran &tich)
+{
+    tich.hang =  mt1.hang;
+    tich.cot = mt2.cot;
+    if (mt1.cot == mt2.hang)
+    {
+        for (int i = 0; i < mt1.hang; i++)
+        {
+            for (int k = 0; k < mt2.cot; k++)
+            {
+                tich.mat[i][k] = 0;
+                for (int j = 0; j < mt1.cot; j++)
+                {
+                    tich.mat[i][k] += mt1.mat[i][j] * mt2.mat[j][k];
+                }
+            }
+        }
+    }
+    else
+        printf("khong du dieu kien de nhan hai ma tran");
+}
+void chuyenvi(matran &mt,matran &mtct)
+{
+	mtct.cot=mt.hang;
+	mtct.hang=mt.cot;
+	for(int i=0;i<mt.cot;i++)
+{
+	for(int j=0;j<mt.hang;j++)
+	{
+		mtct.mat[i][j]=mt.mat[j][i];
+	}
+}
+}
+int main()
+{
+    matran mt1, mt2;
+    matran tong, tich,mtct;
+    nhap(mt1);
+    nhap(mt2);
+    printf("Tong hai ma tran\n");
+    tong2mt(mt1, mt2, tong);
+    xuat(tong);
+    printf("\nTich hai ma tran\n");
+    tichmatran(mt1, mt2, tich);
+    xuat (tich);
+    printf("ma tran chuyen vi mt1:\n");
+    chuyenvi(mt1,mtct);
+    xuat (mtct);
+}

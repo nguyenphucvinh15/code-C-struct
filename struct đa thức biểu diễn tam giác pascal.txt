@@ -1,6 +1,5 @@
-#include <iostream>
-#include <iomanip>
-#include <cmath> 
+#include <stdio.h>
+#include <math.h> 
 using namespace std;
 
 struct DaThuc{
@@ -23,11 +22,11 @@ int main() {
 	dathuc x;
 	nhapDaThuc(x);
 	inDaThuc(x);
-	cout << "\n\nTam giac Pascal cua da thuc la: \n";
+	printf("\n\nTam giac Pascal cua da thuc la: \n");
 	print_rectangle(x);
-	cout << "\n----------------------------------------";
-	cout << "\nTong cua da thuc la: ";
-	cout << "\n(" << x.a << " + " << x.b << ")" << " ^ " << x.bac << " = " << tongDaThuc(x);
+	printf ("\n----------------------------------------");
+	printf("\nTong cua da thuc la: ");
+	printf("\n(%d+%d)^%d=%d",x.a,x.b,x.bac,tongDaThuc(x));
 }
 
 int C(int n, int k) {
@@ -38,21 +37,21 @@ int C(int n, int k) {
 
 void nhapDaThuc(dathuc &x) {
 	do {
-		cout << "\nNhap so bac cua da thuc: ";
-		cin >> x.bac;
+		printf("\nNhap so bac cua da thuc: ");
+		scanf("%d",&x.bac);
 		if (x.bac < 1)
-			cout << "\nSo bac cua da thuc khong hop le.\n";
+		printf("\nSo bac cua da thuc khong hop le.\n");
 	} while (x.bac < 1);
     
-    cout << "\nNhap vao he so a = ";
-    cin >> x.a;
-    cout << "\nNhap vao he so b = ";
-    cin >> x.b;
+    printf("\nNhap vao he so a = ");
+    scanf("%d",&x.a);
+    printf("\nNhap vao he so b = ");
+    scanf("%d",&x.b);
 }
 
 void inDaThuc(dathuc x) {
-	cout << "\nDa thuc cua ban la: ";
-	cout << "(" << x.a << " + " << x.b << ")" << " ^ " << x.bac;
+	printf("\nDa thuc cua ban la: ");
+	printf("(%d+%d)^%d",x.a,x.b,x.bac);
 }
 
 void inputarray(dathuc &x) {
@@ -63,7 +62,7 @@ void inputarray(dathuc &x) {
     
 void inTamgiac(dathuc &x) {
     for (int i = 0; i <= x.bac; i++) {
-        cout << setw(8) << x.mang_he_so[i];
+       printf("%8.1lf",x.mang_he_so[i]);
     }
 }
     
@@ -72,7 +71,7 @@ void print_rectangle(dathuc &x) {
         inputarray(x);
     }
 	inTamgiac(x);
-    cout << endl;
+    printf("\n");
 }
 
 double tongDaThuc(dathuc x) {

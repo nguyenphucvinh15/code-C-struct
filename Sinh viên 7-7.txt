@@ -1,0 +1,97 @@
+#include <stdio.h>
+struct DiemSo {
+	double gk;
+	double ck;
+	double tb;
+};
+typedef DiemSo dso;
+
+struct DanhSach {
+	dso a[100];
+	int n;
+};
+typedef DanhSach ds;
+
+void nhapDiem(dso &dso) {
+	scanf ("%lf",&dso.gk);
+	scanf("%lf",&dso.ck);
+}
+
+void inDiem(dso &dso){
+	printf("%lf %lf",dso.gk, dso.ck);
+	printf("\n");
+}
+
+double tbc(dso &dso) {
+    return dso.tb = (dso.gk*0.45 + dso.ck*0.55); 	
+}
+
+void nhapDanhSach(ds &ds) {
+	scanf("%d",&ds.n);
+	for (int i = 0; i < ds.n; i++) {
+		nhapDiem(ds.a[i]);
+	}
+}
+
+void intb(dso &dso) {
+	printf("%.2lf", tbc(dso));
+}
+
+void indsachtb(ds &ds) {
+	for (int i = 0; i < ds.n; i++) {
+		intb(ds.a[i]);
+		printf(" ");
+	}
+}
+
+char xepLoai(dso &dso) {
+	char c;
+	if (dso.tb < 4.0) {
+	    c = 'F';
+	} else if (dso.tb < 5.0) {
+		c = 'E';
+	} else if (dso.tb < 6.0) {
+		c = 'D';
+	} else if (dso.tb < 7.0) {
+		c = 'C';
+	} else if (dso.tb < 8.0) {
+        c = 'B';
+	} else {
+		c = 'A';
+	}
+	return c;
+}
+
+void inXepLoai(ds &ds) {
+	for (int i = 0; i < ds.n; i++) {
+		printf("%c ",xepLoai(ds.a[i]));
+	}
+}
+
+double max(ds &ds) {
+	double max = ds.a[0].tb;
+	for (int i = 1; i < ds.n; i++) {
+		if (max < ds.a[i].tb) {
+			max = ds.a[i].tb;
+		}
+	}
+	return max;
+}
+
+void inDanhSachTBmax(ds &ds) {
+	for (int i = 0; i < ds.n; i++) {
+		if (ds.a[i].tb == max(ds)) {
+			inDiem(ds.a[i]);
+		}
+	}
+}
+
+int main() {
+	ds ds;
+	nhapDanhSach(ds);
+	indsachtb(ds);
+	printf("\n");
+	inXepLoai(ds);
+	printf("\n");
+	inDanhSachTBmax(ds);
+}

@@ -1,0 +1,73 @@
+#include <stdio.h>
+
+struct ChuNhat {
+	double cd;
+	double cr;
+};
+typedef ChuNhat hcn;
+
+void nhapCN(hcn &hcn) {
+	scanf("%lf", hcn.cd);
+	scanf("%lf",hcn.cr);
+}
+
+void inCN(hcn &hcn) {
+	printf("(%.1lf,%.1lf) ",hcn.cd ,hcn.cr); 
+}
+
+bool vuongCN(hcn &hcn) {
+	if (hcn.cd == hcn.cr) {
+		return 1;
+	}
+	return 0;
+}
+
+double dtChuNhat(hcn &hcn) {
+	return hcn.cd*hcn.cr;
+}
+
+bool ssNhoHon(hcn &hcn1, hcn &hcn2) {
+	if (dtChuNhat(hcn1) < dtChuNhat(hcn2)) {
+		return 1;
+	}
+	return 0;
+}
+
+int main() {
+	hcn a[100];
+	int n;
+	scanf ("%d",&n);
+	for (int i = 0; i < n; i++) {
+		nhapCN(a[i]);
+	}
+	
+	for (int i = 0; i < n; i++) {
+		inCN(a[i]);
+	}
+	printf("\n");
+	double sum = 0;
+	for (int i = 0; i < n; i++) {
+		sum += dtChuNhat(a[i]);
+	}
+	printf("%.2lf\n",sum);
+	int count = 0;
+	for (int i = 0; i < n; i++) {
+		if (vuongCN(a[i]) == 1) {
+			count ++;
+		}
+	}
+	printf("%d\n",count);
+	hcn tmp;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (ssNhoHon(a[i], a[j]) == 0) {
+				tmp = a[i];
+				a[i] = a[j];
+				a[j] = tmp;
+			}
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		inCN(a[i]);
+	}
+}
